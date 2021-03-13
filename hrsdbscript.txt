@@ -1,0 +1,105 @@
+      
+
+**********************************************HRS DATABASE SCRIPT**********************************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+       create table user_profile
+	(
+		name varchar(30),
+		user_id varchar(25) primary key,
+		password varchar(15)
+	);
+
+   	
+   	insert into user_profile values('sonal singh','sonal','12345');
+   	
+
+  	create table user_login
+	(
+		id number(10)primary key,
+		user_id varchar(25)references user_profile(user_id)on delete cascade,
+		login_date date
+	);
+	
+	create table room_type
+	(
+		id number(10)primary key,
+		name varchar(14),
+		Status varchar(10)
+	);
+	
+	   	insert into room_type values(1,'Delux','y');
+	   	insert into room_type values(2,'Super-Delux','y');
+	   	insert into room_type values(3,'Executive','y');
+	   	insert into room_type values(4,'VIP','y');
+	   	insert into room_type values(5,'SUITE','y');
+	   	insert into room_type values(6,'Normal','y');
+
+   	create table tariff
+	(
+		id number(10)primary key,
+		room_type varchar(50),
+		bed_type varchar(15),
+		tariff number(7,2),
+		description varchar(500)
+	);
+
+	create table room_master
+	(
+		room_no varchar(15)primary key,
+		tariff_id number(10) references tariff(id),
+		Status varchar(15)
+	);
+
+     
+	create table room_booking
+	(
+		booking_no varchar(15)primary key,
+		booking_date date,
+		room_no varchar(15)references room_master(room_no)on delete cascade,
+		customer_name varchar(50),
+		present_address varchar(255),
+		permanent_address varchar(255),
+		gender varchar(1),
+ 		contact_no number(10),
+		nationality varchar(25),
+		purpose varchar(255),
+		occupancy number(5),
+		days number(5),
+		status varchar(15)
+	);
+
+
+	create table room_transfer
+	(
+		id number(10)primary key,
+		booking_no varchar(15)references room_booking(booking_no)on delete cascade,
+		old_room_no varchar(15)references room_master(room_no)on delete cascade,
+		new_room_no varchar(15)references room_master(room_no)on delete cascade,
+		transfer_date date,
+		reason varchar(500)
+	);
+
+
+	create table room_cancellation
+	(
+		id number(10)primary key,
+		booking_no varchar(15)references room_booking(booking_no) on delete cascade,
+		cancel_date date,
+		reason varchar(500)
+ 	);
+
+
+	create table billing
+	(
+		id number(10)primary key,
+		booking_no varchar(15)references room_booking(booking_no)on delete cascade,
+		bill_date date,
+		days number(5),
+		amount number(7,2),
+		payment_type varchar(30),
+		card_no varchar(20),
+		bill_to varchar(50),
+		remarks varchar(255)
+	);
