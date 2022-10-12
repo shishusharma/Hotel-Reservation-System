@@ -1,1 +1,1 @@
-# Hotel-Management
+# Hotel-Reservation-System
